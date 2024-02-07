@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Search Example</title>
+</head>
+<body>
+
+    <form id="searchForm" onsubmit="return performSearch()">
+        <label for="searchBar">Search:</label>
+        <input type="text" id="searchBar" name="searchBar" placeholder="Type your search">
+        <button type="submit">Search</button>
+    </form>
+
+    <div id="searchResults">
+        <!-- The search results will be displayed here -->
+    </div>
+
+    <script>
+        function performSearch() {
+            var searchTerm = document.getElementById('searchBar').value;
+            var proxyUrl = '46.4.96.137'; // Change to the actual URL of your proxy script
+
+            // Use AJAX to make a request through the proxy
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', `${proxyUrl}?query=${encodeURIComponent(searchTerm)}`, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Display the search results in the results div
+                    document.getElementById('searchResults').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+
+            // Prevent the form from submitting and reloading the page
+            return false;
+        }
+    </script>
+
+</body>
+</html>
